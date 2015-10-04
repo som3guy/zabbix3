@@ -1,0 +1,20 @@
+<?php
+// Zabbix GUI configuration file.
+global $DB;
+
+$DB['TYPE']     = '<%= node['zabbix3']['mysql']['server_type'] %>';
+$DB['SERVER']   = '<%= node['zabbix3']['server']['conf']['DBHost'] %>';
+$DB['PORT']     = '<%= node['zabbix3']['mysql']['port'] %>';
+$DB['DATABASE'] = '<%= node['zabbix3']['server']['conf']['DBName'] %>';
+$DB['USER']     = '<%= node['zabbix3']['server']['conf']['DBUser'] %>';
+$DB['PASSWORD'] = '<%= node['zabbix3']['server']['conf']['DBPassword'] %>';
+
+// Schema name. Used for IBM DB2 and PostgreSQL.
+$DB['SCHEMA'] = '';
+
+$ZBX_SERVER      = '<%= node['zabbix3']['php']['zabbix_listen'] %>';
+$ZBX_SERVER_PORT = '<%= node['zabbix3']['server']['listen_port'] %>';
+$ZBX_SERVER_NAME = '<%= node['zabbix3']['php']['server_name'] %>';
+
+$IMAGE_FORMAT_DEFAULT = IMAGE_FORMAT_PNG;
+?>

@@ -1,0 +1,3 @@
+<% node['zabbix3']['server']['conf'].each do |name,value| -%>
+<%= name %>=<%= value %>
+<% end -%>

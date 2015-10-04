@@ -1,0 +1,56 @@
+#!/bin/bash
+# Copyright (c) 2015 Jeremy Miller
+# All rights reserved.
+#
+# Author: Jeremy Miller, 2015
+#
+# /etc/init.d/sickrage
+# chkconfig: 345 70 30
+
+. /etc/init.d/functions
+
+RETVAL=0
+prog="zabbix_server"
+
+
+
+start() {
+        # Start daemon.
+        echo -n $"Starting $prog: "
+        /usr/local/sbin/zabbix_server
+        RETVAL=$?
+        echo
+        [ $RETVAL -eq 0 ] && touch <%= node['zabbix3']['lockfile_dir'] %>/$prog
+        return $RETVAL
+}
+
+stop() {
+        echo -n $"Shutting down $prog: "
+        killproc -p <%= node['zabbix3']['server']['conf']['PidFile'] %> zabbix_server
+        RETVAL=$?
+        echo
+        [ $RETVAL -eq 0 ] && rm -f <%= node['zabbix3']['lockfile_dir'] %>/$prog
+        return $RETVAL
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+        status -p <%= node['zabbix3']['server']['conf']['PidFile'] %> $prog
+        ;;
+    restart)
+        stop
+        sleep 3
+        start
+        ;;
+    *)
+        echo "Usage: $prog {start|stop|status|restart}"
+        exit 1
+        ;;
+esac
+exit $RETVAL
