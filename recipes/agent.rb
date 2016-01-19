@@ -1,6 +1,6 @@
-iptables_rule 'zabbix_firewall' do
-	action :enable
-end
+#iptables_rule 'zabbix_firewall' do
+#	action :enable
+#end
 
 execute 'install dev_tools' do
 	command "yum groupinstall -y 'Development Tools'"

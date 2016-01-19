@@ -7,8 +7,7 @@ template 'maria_repo' do
 	group 'root'
 end
 
-package ['MariaDB-server', 'MariaDB-devel'] do
-	version node['zabbix3']['mysql']['version']
+package ['MariaDB-Galera-server', 'MariaDB-devel'] do
     action :install
 end
 

@@ -18,14 +18,14 @@ execute 'install dev_tools' do
 end
 
 # Move the source to /opt/
-cookbook_file '/opt/zabbix-3.0.0alpha2.tar.gz' do
-	source 'zabbix-3.0.0alpha2.tar.gz'
+cookbook_file "/opt/#{node['zabbix3']['version']['current_file']}" do
+	source node['zabbix3']['version']['current_file']
 end
 
 # Extract source unless it has already been extracted
-unless Dir.exists? "/opt/zabbix-3.0.0alpha2"
+unless Dir.exists? "/opt/#{node['zabbix3']['version']['current']}"
    execute 'extract zabbix' do
-	   command 'cd /opt/ && tar -xf zabbix-3.0.0alpha2.tar.gz'
+	   command "cd /opt/ && tar -xf #{node['zabbix3']['version']['current_file']}"
    end
 end
 
@@ -48,10 +48,29 @@ package ['libxml2-devel', 'net-snmp-devel', 'libcurl-devel'] do
 end
 
 
-bash 'build_zabix' do
-  cwd '/opt/zabbix-3.0.0alpha2'
+bash 'build_zabbix' do
+  cwd "/opt/#{node['zabbix3']['version']['current']}"
   code <<-EOH
   ./configure --enable-server --enable-agent --with-mysql --enable-ipv6 --with-net-snmp --with-libcurl --with-libxml2
+  EOH
+  not_if { ::Dir.exists?("/usr/local/etc/zabbix_server.conf.d") }
+end
+
+# template 'testing_patch' do
+# 	source 'configuration.hostgroups.list.php.erb'
+# 	path "/opt/#{node['zabbix3']['version']['current']}/frontends/php/include/views/configuration.hostgroups.list.php"
+# 	mode 0644
+# end
+
+# template 'testing_patch_2' do
+# 	source 'CHostGroup.php.erb'
+# 	path "/opt/#{node['zabbix3']['version']['current']}/frontends/php/include/classes/api/services/CHostGroup.php"
+# 	mode 0644
+# end
+
+bash 'make_zabix' do
+  cwd "/opt/#{node['zabbix3']['version']['current']}"
+  code <<-EOH
   make install
   EOH
   not_if { ::Dir.exists?("/usr/local/etc/zabbix_server.conf.d") }
@@ -146,7 +165,7 @@ end
 
 unless File.exists? "/var/www/html/zabbix/zabbix.php"
 	execute 'copy php dir to htdocs' do
-		command 'cp -r /opt/zabbix-3.0.0alpha2/frontends/php/* /var/www/html/zabbix'
+		command "cp -r /opt/#{node['zabbix3']['version']['current']}/frontends/php/* /var/www/html/zabbix"
 	end
 end
 
@@ -192,7 +211,6 @@ template 'zabbix_server.conf.php' do
 	owner 'root'
 	group 'root'
 end
-
 
 service 'zabbix_server' do
 	action [:enable, :start]

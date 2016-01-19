@@ -31,4 +31,13 @@ default['zabbix3']['server']['conf']['TrendCacheSize'] = '4M'
 default['zabbix3']['server']['conf']['ValueCacheSize'] = '8M'
 default['zabbix3']['server']['conf']['SNMPTrapperFile'] = '/var/log/snmptt/snmptt.log'
 
+#Directory Settings
 default['zabbix3']['lockfile_dir'] = '/var/run/zabbix/subsys'
+default['zabbix3']['']
+
+# Version settings
+default['zabbix3']['version']['previous_file'] = 'zabbix-3.0.0alpha6.tar.gz'
+default['zabbix3']['version']['current_file'] = 'zabbix-3.0.0beta1.tar.gz'
+default['zabbix3']['version']['current'] = 'zabbix-3.0.0beta1'
+default['zabbix']['version']['previous'] = 'zabbix-3.0.0alpha6'
+
