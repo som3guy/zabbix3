@@ -36,8 +36,8 @@ default['zabbix3']['lockfile_dir'] = '/var/run/zabbix/subsys'
 default['zabbix3']['']
 
 # Version settings
-default['zabbix3']['version']['previous_file'] = 'zabbix-3.0.0alpha6.tar.gz'
-default['zabbix3']['version']['current_file'] = 'zabbix-3.0.0beta1.tar.gz'
-default['zabbix3']['version']['current'] = 'zabbix-3.0.0beta1'
-default['zabbix']['version']['previous'] = 'zabbix-3.0.0alpha6'
+default['zabbix3']['version']['previous_file'] = 'zabbix-3.0.0beta2.tar.gz'
+default['zabbix3']['version']['current_file'] = 'zabbix-3.0.1.tar.gz'
+default['zabbix3']['version']['current'] = 'zabbix-3.0.1'
+default['zabbix']['version']['previous'] = 'zabbix-3.0.0beta2'
 
